@@ -41,9 +41,4 @@ public class ShapeService {
     public List<Shape> getAll() {
         return shapeRepository.findAll();
     }
-
-    public List<Shape> getAllByTypeSquareGreaterThanSideLength(double sideLength){
-        return shapeRepository.findAllByTypeSquareGreaterThanSideLength(sideLength);
-    }
-
 }
