@@ -23,6 +23,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ClassCastException.class)
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(ClassCastException ex) {
+        ExceptionResponse response = new ExceptionResponse(
+                List.of(ex.getMessage()),
+                "BAD_REQUEST",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> handleValidationException(MethodArgumentNotValidException ex) {

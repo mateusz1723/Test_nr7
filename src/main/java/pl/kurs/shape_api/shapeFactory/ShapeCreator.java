@@ -11,6 +11,11 @@ public interface ShapeCreator {
 
 
      default Double getDoubleParameters(String name, Map<String, Object> parameters){
-         return (Double) parameters.get(name);
+         try {
+             return (Double) parameters.get(name);
+
+         }catch (ClassCastException e){
+             throw new ClassCastException("Tylko liczby zmiennoprzecinkowe");
+         }
      }
 }
