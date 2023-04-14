@@ -3,7 +3,6 @@ package pl.kurs.shape_api.shapeFactory;
 import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.models.Rectangle;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class RectangleCreator implements ShapeCreator{
 
     @Override
     public String getType() {
-        return ShapeType.RECTANGLE.name();
+        return "RECTANGLE";
     }
 
     @Override

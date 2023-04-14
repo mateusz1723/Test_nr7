@@ -26,8 +26,8 @@ public abstract class Shape implements Serializable {
     @Version
     private int version;
 
-    @Enumerated(value = EnumType.STRING)
-    private ShapeType type;
+    @Column(nullable = false)
+    private String type;
 
     @Column(nullable = false)
     @CreatedBy
@@ -57,21 +57,15 @@ public abstract class Shape implements Serializable {
     public Shape() {
     }
 
-    public Shape(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter) {
-        this.id = id;
+    public Shape(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy) {
         this.version = version;
         this.type = type;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.lastModifiedAt = lastModifiedAt;
         this.lastModifiedBy = lastModifiedBy;
-        this.area = area;
-        this.perimeter = perimeter;
     }
 
-
-    public abstract double calculatePerimeter();
-    public abstract double calculateArea();
 
     public long getId() {
         return id;
@@ -89,11 +83,11 @@ public abstract class Shape implements Serializable {
         this.version = version;
     }
 
-    public ShapeType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ShapeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

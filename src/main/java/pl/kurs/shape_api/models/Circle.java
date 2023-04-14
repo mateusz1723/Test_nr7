@@ -19,31 +19,14 @@ public class Circle extends Shape {
 
     public Circle(double radius) {
         this.radius = radius;
+        this.setPerimeter(2 * Math.PI * radius);
+        this.setArea(Math.PI * Math.pow(radius, 2));
+        this.setType("CIRCLE");
     }
 
-    public Circle(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
-    }
-
-    public Circle(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter, double radius) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
+    public Circle(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double radius) {
+        super(version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy);
         this.radius = radius;
-    }
-
-    @Override
-    public ShapeType getType() {
-        return ShapeType.CIRCLE;
-    }
-
-
-    @Override
-    public double calculatePerimeter() {
-        return 2 * Math.PI * radius;
-    }
-
-    @Override
-    public double calculateArea() {
-        return Math.PI * Math.pow(radius, 2);
     }
 
     public double getRadius() {
@@ -53,7 +36,6 @@ public class Circle extends Shape {
     public void setRadius(double radius) {
         this.radius = radius;
     }
-
 
 
     @Override

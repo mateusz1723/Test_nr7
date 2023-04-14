@@ -1,9 +1,9 @@
 package pl.kurs.shape_api.shapeFactory;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.models.Circle;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 import java.util.Map;
 
@@ -12,7 +12,7 @@ public class CircleCreator implements ShapeCreator{
 
     @Override
     public String getType() {
-        return ShapeType.CIRCLE.name();
+        return "CIRCLE";
     }
 
     @Override

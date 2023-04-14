@@ -1,12 +1,10 @@
 package pl.kurs.shape_api.dto;
 
-import pl.kurs.shape_api.models.ShapeType;
-
 import java.time.LocalDate;
 
 public class SquareDto extends ShapeDto{
     private Long id;
-    private ShapeType type;
+    private String type;
     private double sideLength;
     private String version;
     private String createdBy;
@@ -27,12 +25,12 @@ public class SquareDto extends ShapeDto{
     }
 
     @Override
-    public ShapeType getType() {
+    public String getType() {
         return type;
     }
 
     @Override
-    public void setType(ShapeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

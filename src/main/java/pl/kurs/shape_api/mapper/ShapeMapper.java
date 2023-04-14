@@ -21,7 +21,7 @@ public class ShapeMapper {
     }
 
     public ShapeDto mapToDto(Shape shape){
-        return mappers.get(shape.getType().name()).map(shape);
+        return mappers.get(shape.getType()).map(shape);
     }
 
 

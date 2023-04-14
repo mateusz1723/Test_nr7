@@ -1,12 +1,10 @@
 package pl.kurs.shape_api.dto;
 
-import pl.kurs.shape_api.models.ShapeType;
-
 import java.time.LocalDate;
 
 public class RectangleDto extends ShapeDto{
     private Long id;
-    private ShapeType type;
+    private String type;
     private double width;
     private double height;
     private String version;
@@ -28,12 +26,12 @@ public class RectangleDto extends ShapeDto{
     }
 
     @Override
-    public ShapeType getType() {
+    public String getType() {
         return type;
     }
 
     @Override
-    public void setType(ShapeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

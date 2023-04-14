@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.dto.RectangleDto;
 import pl.kurs.shape_api.dto.ShapeDto;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 @Service
 public class RectangleDtoMapper implements ShapeDtoMapper{
@@ -18,7 +17,7 @@ public class RectangleDtoMapper implements ShapeDtoMapper{
 
     @Override
     public String getType() {
-        return ShapeType.RECTANGLE.name();
+        return "RECTANGLE";
     }
 
     @Override

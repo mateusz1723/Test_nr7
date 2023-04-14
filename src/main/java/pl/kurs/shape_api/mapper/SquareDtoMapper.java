@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.dto.ShapeDto;
 import pl.kurs.shape_api.dto.SquareDto;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 @Service
 public class SquareDtoMapper implements ShapeDtoMapper{
@@ -18,7 +17,7 @@ public class SquareDtoMapper implements ShapeDtoMapper{
 
     @Override
     public String getType() {
-        return ShapeType.SQUARE.name();
+        return "SQUARE";
     }
 
     @Override

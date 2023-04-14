@@ -1,13 +1,11 @@
 package pl.kurs.shape_api.dto;
 
-import pl.kurs.shape_api.models.ShapeType;
-
 import java.time.LocalDate;
 
 public abstract class ShapeDto {
 
     private Long id;
-    private ShapeType type;
+    private String type;
     private String version;
     private String createdBy;
     private LocalDate createdAt;
@@ -23,11 +21,11 @@ public abstract class ShapeDto {
         this.id = id;
     }
 
-    public ShapeType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ShapeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
