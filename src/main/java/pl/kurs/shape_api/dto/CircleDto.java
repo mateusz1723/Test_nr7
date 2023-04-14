@@ -1,13 +1,11 @@
 package pl.kurs.shape_api.dto;
 
-import pl.kurs.shape_api.models.ShapeType;
-
 import java.time.LocalDate;
 
 public class CircleDto extends ShapeDto{
 
     private Long id;
-    private ShapeType type;
+    private String type;
     private double radius;
     private String version;
     private String createdBy;
@@ -25,11 +23,11 @@ public class CircleDto extends ShapeDto{
         this.id = id;
     }
 
-    public ShapeType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ShapeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

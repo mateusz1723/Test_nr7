@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "rectangles")
-public class Rectangle extends Shape{
+public class Rectangle extends Shape {
     private static final long serialVersionUID = 1l;
 
     @Column(nullable = false)
@@ -23,31 +23,15 @@ public class Rectangle extends Shape{
     public Rectangle(double width, double height) {
         this.width = width;
         this.height = height;
+        this.setPerimeter(2 * width + 2 * height);
+        this.setArea(width * height);
+        this.setType("RECTANGLE");
     }
 
-    public Rectangle(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
-    }
-
-    public Rectangle(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter, double width, double height) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
+    public Rectangle(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double width, double height) {
+        super(version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy);
         this.width = width;
         this.height = height;
-    }
-
-    @Override
-    public ShapeType getType() {
-        return ShapeType.RECTANGLE;
-    }
-
-    @Override
-    public double calculatePerimeter() {
-        return 2 * width + 2 * height;
-    }
-
-    @Override
-    public double calculateArea() {
-        return width * height;
     }
 
 

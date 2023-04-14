@@ -6,7 +6,6 @@ import pl.kurs.shape_api.dto.CircleDto;
 import pl.kurs.shape_api.dto.ShapeDto;
 
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 @Service
 public class CircleDtoMapper implements ShapeDtoMapper{
@@ -19,7 +18,7 @@ public class CircleDtoMapper implements ShapeDtoMapper{
 
     @Override
     public String getType() {
-        return ShapeType.CIRCLE.name();
+        return "CIRCLE";
     }
 
     @Override

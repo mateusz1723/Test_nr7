@@ -2,7 +2,6 @@ package pl.kurs.shape_api.shapeFactory;
 
 import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 import pl.kurs.shape_api.models.Square;
 
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Map;
 public class SquareCreator implements ShapeCreator{
     @Override
     public String getType() {
-        return ShapeType.SQUARE.name();
+        return "SQUARE";
     }
 
     @Override

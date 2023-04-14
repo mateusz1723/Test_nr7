@@ -3,7 +3,6 @@ package pl.kurs.shape_api.shapeFactory;
 import org.springframework.stereotype.Service;
 import pl.kurs.shape_api.commands.CreateShapeCommand;
 import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.models.ShapeType;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -21,10 +20,9 @@ public class ShapeFactory {
     }
 
     public Shape creator(CreateShapeCommand createShapeCommand){
-        ShapeType[] shapes = ShapeType.values();
-        if (Arrays.stream(shapes).noneMatch(x -> x.name().equals(createShapeCommand.getType().toUpperCase())))
+        if (!creators.containsKey(createShapeCommand.getType().toUpperCase()))
             throw new IllegalArgumentException("Nie ma takiej figury do stworzenia");
-        return creators.get(createShapeCommand.getType().toUpperCase().trim()).create(createShapeCommand.getParameters());
+        return creators.get(createShapeCommand.getType().toUpperCase()).create(createShapeCommand.getParameters());
     }
 }
 

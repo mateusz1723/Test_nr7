@@ -20,33 +20,15 @@ public class Square extends Shape{
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
+        this.setPerimeter(4 * sideLength);
+        this.setArea(sideLength * sideLength);
+        this.setType("SQUARE");
     }
 
-    public Square(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
-    }
-
-    public Square(long id, int version, ShapeType type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double area, double perimeter, double sideLength) {
-        super(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, area, perimeter);
+    public Square(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double sideLength) {
+        super(version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy);
         this.sideLength = sideLength;
     }
-
-    @Override
-    public ShapeType getType() {
-        return ShapeType.SQUARE;
-    }
-
-
-    @Override
-    public double calculatePerimeter() {
-        return 4 * sideLength;
-    }
-
-    @Override
-    public double calculateArea() {
-        return sideLength * sideLength;
-    }
-
 
     public double getSideLength() {
         return sideLength;
@@ -55,6 +37,7 @@ public class Square extends Shape{
     public void setSideLength(double sideLength) {
         this.sideLength = sideLength;
     }
+
 
 
     @Override
