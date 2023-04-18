@@ -1,5 +1,8 @@
 package pl.kurs.shape_api.controllers;
 
+import org.hibernate.boot.spi.MetadataBuildingContext;
+import org.hibernate.cfg.annotations.QueryBinder;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -9,13 +12,20 @@ import pl.kurs.shape_api.dto.ShapeDto;
 import pl.kurs.shape_api.mapper.ShapeMapper;
 import pl.kurs.shape_api.models.*;
 import pl.kurs.shape_api.services.ShapeService;
+import pl.kurs.shape_api.shapeAttribute.Attribute;
+import pl.kurs.shape_api.shapeAttribute.ShapeAttribute;
 
+import javax.management.AttributeValueExp;
+import javax.management.Query;
+import javax.management.QueryExp;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Validated
 @RestController
@@ -24,11 +34,13 @@ public class ShapeController {
 
     private final ShapeService shapeService;
     private final ShapeMapper shapeMapper;
+    private final ShapeAttribute attribute;
 
 
-    public ShapeController(ShapeService shapeService, ShapeMapper shapeMapper) {
+    public ShapeController(ShapeService shapeService, ShapeMapper shapeMapper, ShapeAttribute attribute) {
         this.shapeService = shapeService;
         this.shapeMapper = shapeMapper;
+        this.attribute = attribute;
     }
 
     @PostMapping
@@ -49,115 +61,19 @@ public class ShapeController {
         LocalDate createdAtFrom = LocalDate.parse(parameters.getOrDefault("createdAtFrom", "2023-01-01"));
         LocalDate createdAtTo = LocalDate.parse(parameters.getOrDefault("createdAtTo", "2024-01-01"));
         String typeBy = parameters.getOrDefault("typeBy", "CIRCLE,SQUARE,RECTANGLE");
-        String radiusFrom = parameters.get("radiusFrom");
-        String radiusTo = parameters.get("radiusTo");
-        String sideLengthFrom = parameters.get("sideLengthFrom");
-        String sideLengthTo = parameters.get("sideLengthTo");
-        String widthFrom = parameters.get("widthFrom");
-        String widthTo = parameters.get("widthTo");
-        String heightFrom = parameters.get("heightFrom");
-        String heightTo = parameters.get("heightTo");
 
-
-        List<Shape> shapes = null;
-        List<ShapeDto> shapesDto;
-
-        if (getShapesWithRadius(radiusFrom, radiusTo) != null) {
-            shapes = getShapesWithRadius(radiusFrom, radiusTo);
-        }
-        if (getShapesWithSideLength(sideLengthFrom, sideLengthTo) != null) {
-            shapes = getShapesWithSideLength(sideLengthFrom, sideLengthTo);
-        }
-        if (getShapesWithWidth(widthFrom, widthTo) != null) {
-            shapes = getShapesWithWidth(widthFrom, widthTo);
-        }
-        if (getShapesWithHeight(heightFrom, heightTo) != null) {
-            shapes = getShapesWithHeight(heightFrom, heightTo);
-        }
-        if (shapes == null) {
-            shapes = shapeService.getAll();
-        }
-        shapesDto = shapes.stream()
-                .filter(x -> x.getCreatedBy().contains(createdBy))
+        List<Shape> shapes = shapeService.getAll().stream()
+                .filter(x -> x.getCreatedBy().equalsIgnoreCase(createdBy))
                 .filter(x -> x.getArea() >= areaFrom && x.getArea() <= areaTo)
                 .filter(x -> x.getPerimeter() >= perimeterFrom && x.getPerimeter() <= perimeterTo)
                 .filter(x -> (x.getCreatedAt().isEqual(createdAtFrom) || x.getCreatedAt().isAfter(createdAtFrom)) && (x.getCreatedAt().isBefore(createdAtTo) || x.getCreatedAt().isEqual(createdAtTo)))
-                .filter(x -> typeBy.contains(x.getType()))
+                .filter(x -> typeBy.toUpperCase().contains(x.getType()))
+                .collect(Collectors.toList());
+
+        List<ShapeDto> shapesDto = attribute.getAttributes(parameters, shapes).stream()
                 .map(shapeMapper::mapToDto)
                 .collect(Collectors.toList());
 
-
         return ResponseEntity.status(HttpStatus.OK).body(shapesDto);
     }
-
-
-    private List<Shape> getShapesWithRadius(String radiusFrom, String radiusTo) {
-        List<Shape> shapes = null;
-        if (radiusFrom != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Circle)
-                    .filter(x -> ((Circle) x).getRadius() >= Double.parseDouble(radiusFrom))
-                    .collect(Collectors.toList());
-        }
-        if (radiusTo != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Circle)
-                    .filter(x -> ((Circle) x).getRadius() <= Double.parseDouble(radiusTo))
-                    .collect(Collectors.toList());
-        }
-        return shapes;
-    }
-
-    private List<Shape> getShapesWithSideLength(String sideLengthFrom, String sideLengthTo) {
-        List<Shape> shapes = null;
-        if (sideLengthFrom != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Square)
-                    .filter(x -> ((Square) x).getSideLength() >= Double.parseDouble(sideLengthFrom))
-                    .collect(Collectors.toList());
-        }
-        if (sideLengthTo != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Square)
-                    .filter(x -> ((Square) x).getSideLength() <= Double.parseDouble(sideLengthTo))
-                    .collect(Collectors.toList());
-        }
-        return shapes;
-    }
-
-    private List<Shape> getShapesWithWidth(String widthFrom, String widthTo) {
-        List<Shape> shapes = null;
-        if (widthFrom != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Rectangle)
-                    .filter(x -> ((Rectangle) x).getWidth() >= Double.parseDouble(widthFrom))
-                    .collect(Collectors.toList());
-        }
-        if (widthTo != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Rectangle)
-                    .filter(x -> ((Rectangle) x).getWidth() <= Double.parseDouble(widthTo))
-                    .collect(Collectors.toList());
-        }
-        return shapes;
-    }
-
-    private List<Shape> getShapesWithHeight(String heightFrom, String heightTo) {
-        List<Shape> shapes = null;
-        if (heightFrom != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Rectangle)
-                    .filter(x -> ((Rectangle) x).getHeight() >= Double.parseDouble(heightFrom))
-                    .collect(Collectors.toList());
-        }
-        if (heightTo != null) {
-            shapes = shapeService.getAll().stream()
-                    .filter(x -> x instanceof Rectangle)
-                    .filter(x -> ((Rectangle) x).getHeight() >= Double.parseDouble(heightTo))
-                    .collect(Collectors.toList());
-        }
-        return shapes;
-    }
-
-
 }

@@ -1,14 +1,12 @@
 package pl.kurs.shape_api.models;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "squares")
-public class Square extends Shape{
+public class Square extends Shape {
     private static final long serialVersionUID = 1l;
 
     @Column(nullable = false)
@@ -37,7 +35,6 @@ public class Square extends Shape{
     public void setSideLength(double sideLength) {
         this.sideLength = sideLength;
     }
-
 
 
     @Override
