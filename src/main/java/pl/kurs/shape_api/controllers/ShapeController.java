@@ -40,8 +40,8 @@ public class ShapeController {
 
 
     @GetMapping
-    public ResponseEntity<List<ShapeDto>> getShapesWithSpecificParameters(@RequestParam Map<String, String> parameters) {
-        List<? extends Shape> shapesBySpecificParameters = shapeService.getShapesBySpecificParameters(parameters);
+    public ResponseEntity<List<ShapeDto>> getShapesWithSpecificParameters(@RequestParam Map<String, String> parameters) throws NoSuchMethodException {
+        List<Shape> shapesBySpecificParameters = shapeService.getShapesBySpecificParameters(parameters);
         List<ShapeDto> shapesDto = shapesBySpecificParameters.stream()
                 .map(shapeMapper::mapToDto)
                 .collect(Collectors.toList());
