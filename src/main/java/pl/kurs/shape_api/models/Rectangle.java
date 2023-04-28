@@ -1,8 +1,11 @@
 package pl.kurs.shape_api.models;
 
+import org.hibernate.annotations.DiscriminatorFormula;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.JoinFormula;
+
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +19,11 @@ public class Rectangle extends Shape {
     @Column(nullable = false)
     private double height;
 
+    @Formula(value = "2 * width + 2 * height")
+    private double perimeter;
+
+    @Formula(value = "width * height")
+    private double area;
 
     public Rectangle() {
     }
@@ -23,8 +31,6 @@ public class Rectangle extends Shape {
     public Rectangle(double width, double height) {
         this.width = width;
         this.height = height;
-        this.setPerimeter(2 * width + 2 * height);
-        this.setArea(width * height);
         this.setType("RECTANGLE");
     }
 
@@ -34,6 +40,19 @@ public class Rectangle extends Shape {
         this.height = height;
     }
 
+
+
+    @Transient
+    @Override
+    public double getPerimeter() {
+        return 2 * width + 2 * height;
+    }
+
+    @Transient
+    @Override
+    public double getArea() {
+        return width * height;
+    }
 
     public double getWidth() {
         return width;

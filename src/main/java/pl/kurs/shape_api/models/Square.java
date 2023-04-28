@@ -1,5 +1,7 @@
 package pl.kurs.shape_api.models;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,20 +14,36 @@ public class Square extends Shape {
     @Column(nullable = false)
     private double sideLength;
 
+    @Formula(value = "4 * side_length")
+    private double perimeter;
+
+    @Formula(value = "side_length * side_length")
+    private double area;
 
     public Square() {
     }
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
-        this.setPerimeter(4 * sideLength);
-        this.setArea(sideLength * sideLength);
         this.setType("SQUARE");
     }
 
     public Square(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double sideLength) {
         super(version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy);
         this.sideLength = sideLength;
+    }
+
+
+    @Transient
+    @Override
+    public double getPerimeter() {
+        return 4 * sideLength;
+    }
+
+    @Transient
+    @Override
+    public double getArea() {
+        return sideLength * sideLength;
     }
 
     public double getSideLength() {

@@ -46,7 +46,7 @@ public class ShapeService {
         return shapeRepository.findAll();
     }
 
-    public List<? extends Shape> getShapesBySpecificParameters(Map<String, String> param){
+    public List<Shape> getShapesBySpecificParameters(Map<String, String> param) {
         return shapeCriteriaRepository.getByFilters(param);
     }
 }

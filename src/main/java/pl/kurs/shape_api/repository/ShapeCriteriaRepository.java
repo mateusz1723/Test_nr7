@@ -1,19 +1,19 @@
 package pl.kurs.shape_api.repository;
 
+import org.hibernate.mapping.Formula;
+import org.hibernate.metamodel.model.domain.internal.SingularAttributeImpl;
+import org.springframework.data.spel.spi.Function;
 import org.springframework.stereotype.Repository;
+import pl.kurs.shape_api.models.Circle;
 import pl.kurs.shape_api.models.Shape;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Repository
 public class ShapeCriteriaRepository {
@@ -31,12 +31,13 @@ public class ShapeCriteriaRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Shape> criteriaQuery = criteriaBuilder.createQuery(Shape.class);
         Root<Shape> shapeRoot = criteriaQuery.from(Shape.class);
-        Predicate predicate = getPredicates(param, criteriaBuilder, shapeRoot);
-        criteriaQuery.where(predicate);
 
         if (shapeCriteriaRepo.getSpecificShapes(param) != null) {
             return shapeCriteriaRepo.getSpecificShapes(param);
         }
+        Predicate predicate = getPredicates(param, criteriaBuilder, shapeRoot);
+        criteriaQuery.where(predicate);
+
         TypedQuery<Shape> typedQuery = entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();
     }

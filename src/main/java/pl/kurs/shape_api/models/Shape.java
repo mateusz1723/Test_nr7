@@ -1,6 +1,8 @@
 package pl.kurs.shape_api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.JoinFormula;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -44,14 +46,6 @@ public abstract class Shape implements Serializable {
     @LastModifiedBy
     private String lastModifiedBy;
 
-    @Column(nullable = false)
-    private double area;
-
-    @Column(nullable = false)
-    private double perimeter;
-
-
-
     public Shape() {
     }
 
@@ -63,6 +57,9 @@ public abstract class Shape implements Serializable {
         this.lastModifiedAt = lastModifiedAt;
         this.lastModifiedBy = lastModifiedBy;
     }
+
+    public abstract double getPerimeter();
+    public abstract double getArea();
 
 
     public long getId() {
@@ -121,21 +118,6 @@ public abstract class Shape implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    public double getPerimeter() {
-        return perimeter;
-    }
-
-    public void setPerimeter(double perimeter) {
-        this.perimeter = perimeter;
-    }
 
     @Override
     public String toString() {
@@ -146,9 +128,7 @@ public abstract class Shape implements Serializable {
                 ", createdBy='" + createdBy + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastModifiedAt=" + lastModifiedAt +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' +
-                ", area=" + area +
-                ", perimeter=" + perimeter +
+                ", lastModifiedBy='" + lastModifiedBy +
                 '}';
     }
 }

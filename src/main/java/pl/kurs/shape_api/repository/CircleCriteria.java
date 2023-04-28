@@ -1,13 +1,11 @@
 package pl.kurs.shape_api.repository;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import pl.kurs.shape_api.models.Circle;
 import pl.kurs.shape_api.models.Shape;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -57,7 +55,6 @@ public class CircleCriteria implements ShapeCriteria {
         if (Objects.nonNull(param.get("radiusTo"))) {
             predicates.add(criteriaBuilder.lessThanOrEqualTo(shapeRoot.get("radius"), param.get("radiusTo")));
         }
-
         Predicate shapePredicates = ShapeCriteriaRepository.getPredicates(param, criteriaBuilder, shapeRoot);
         predicates.add(shapePredicates);
 

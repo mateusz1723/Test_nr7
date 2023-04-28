@@ -1,5 +1,9 @@
 package pl.kurs.shape_api.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,20 +16,36 @@ public class Circle extends Shape {
     @Column(nullable = false)
     private double radius;
 
+    @Formula(value = "2 * PI() * radius")
+    private double perimeter;
+
+    @Formula(value = "PI() * power(radius,2)")
+    private double area;
 
     public Circle() {
     }
 
     public Circle(double radius) {
         this.radius = radius;
-        this.setPerimeter(2 * Math.PI * radius);
-        this.setArea(Math.PI * Math.pow(radius, 2));
         this.setType("CIRCLE");
     }
 
     public Circle(int version, String type, String createdBy, LocalDate createdAt, LocalDate lastModifiedAt, String lastModifiedBy, double radius) {
         super(version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy);
         this.radius = radius;
+    }
+
+
+    @Transient
+    @Override
+    public double getPerimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    @Transient
+    @Override
+    public double getArea() {
+        return Math.PI * Math.pow(radius, 2);
     }
 
     public double getRadius() {
