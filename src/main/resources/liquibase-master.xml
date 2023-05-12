@@ -8,5 +8,5 @@
 
     <include file="/database/create-shape-table.xml"/>
     <includeAll path="/database/shapes-table"/>
-<!--    <include file="/database/create-shapes-obj.xml"/>-->
+    <include file="/database/create-shapes-obj.xml"/>
 </databaseChangeLog>

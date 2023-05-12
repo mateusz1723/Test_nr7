@@ -1,0 +1,15 @@
+version,type,created_by,created_at,last_modified_at,last_modified_by
+0,'CIRCLE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'CIRCLE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'CIRCLE','waldek','2023-07-09','2023-07-09','waldek'
+0,'CIRCLE','waldek','2023-07-09','2023-07-09','waldek'
+
+0,'SQUARE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'SQUARE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'SQUARE','waldek','2023-07-09','2023-07-09','waldek'
+0,'SQUARE','waldek','2023-07-09','2023-07-09','waldek'
+
+0,'RECTANGLE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'RECTANGLE','mateusz','2023-05-09','2023-05-09','mateusz'
+0,'RECTANGLE','waldek','2023-07-09','2023-07-09','waldek'
+0,'RECTANGLE','waldek','2023-07-09','2023-07-09','waldek'
