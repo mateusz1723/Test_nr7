@@ -14,4 +14,32 @@
                 separator=","
                 tableName="shape"/>
     </changeSet>
+
+    <changeSet id="20230509_006_mateusz" author="mateusz">
+        <loadData
+                encoding="UTF-8"
+                file="database/data/circles.csv"
+                quotchar="'"
+                separator=","
+                tableName="circles"/>
+    </changeSet>
+
+    <changeSet id="20230509_007_mateusz" author="mateusz">
+        <loadData
+                encoding="UTF-8"
+                file="database/data/squares.csv"
+                quotchar="'"
+                separator=","
+                tableName="squares"/>
+    </changeSet>
+
+    <changeSet id="20230509_008_mateusz" author="mateusz">
+        <loadData
+                encoding="UTF-8"
+                file="database/data/rectangles.csv"
+                quotchar="'"
+                separator=","
+                tableName="rectangles"/>
+    </changeSet>
+
 </databaseChangeLog>
