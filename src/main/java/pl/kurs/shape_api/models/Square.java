@@ -68,10 +68,4 @@ public class Square extends Shape {
         return Objects.hash(sideLength);
     }
 
-    @Override
-    public String toString() {
-        return "Square{" +
-                "sideLength=" + sideLength +
-                '}';
-    }
 }
