@@ -1,6 +1,5 @@
 package pl.kurs.shape_api.commands;
 
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Map;
