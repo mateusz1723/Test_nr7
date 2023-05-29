@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +45,26 @@ public class GlobalExceptionHandler {
 
         ExceptionResponse response = new ExceptionResponse(
                 errorsMessages,
+                "BAD_REQUEST",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotUniqueUsernameException.class)
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(NotUniqueUsernameException ex) {
+        ExceptionResponse response = new ExceptionResponse(
+                List.of(ex.getMessage()),
+                "BAD_REQUEST",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(VersionNotEqualsException.class)
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(VersionNotEqualsException ex) {
+        ExceptionResponse response = new ExceptionResponse(
+                List.of(ex.getMessage()),
                 "BAD_REQUEST",
                 LocalDateTime.now()
         );
