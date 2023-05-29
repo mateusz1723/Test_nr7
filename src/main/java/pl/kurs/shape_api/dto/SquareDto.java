@@ -10,7 +10,7 @@ public class SquareDto extends ShapeDto{
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
-    private LocalDate lastModifiedBy;
+    private String lastModifiedBy;
     private double area;
     private double perimeter;
 
@@ -83,12 +83,12 @@ public class SquareDto extends ShapeDto{
     }
 
     @Override
-    public LocalDate getLastModifiedBy() {
+    public String getLastModifiedBy() {
         return lastModifiedBy;
     }
 
     @Override
-    public void setLastModifiedBy(LocalDate lastModifiedBy) {
+    public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 

@@ -61,12 +61,13 @@ public class Circle extends Shape {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Circle circle = (Circle) o;
-        return Double.compare(circle.radius, radius) == 0;
+        return Double.compare(circle.radius, radius) == 0 && Double.compare(circle.perimeter, perimeter) == 0 && Double.compare(circle.area, area) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(radius);
+        return Objects.hash(super.hashCode(), radius, perimeter, area);
     }
 }
