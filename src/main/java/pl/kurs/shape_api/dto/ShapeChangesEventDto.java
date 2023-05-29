@@ -13,6 +13,14 @@ public class ShapeChangesEventDto {
     private String changesBy;
     private Set<ShapeChanges> changes;
 
+    public ShapeChangesEventDto(long shapeChangesEventId, LocalDate changedDate, long shapeId, String changesBy, Set<ShapeChanges> changes) {
+        this.shapeChangesEventId = shapeChangesEventId;
+        this.changedDate = changedDate;
+        this.shapeId = shapeId;
+        this.changesBy = changesBy;
+        this.changes = changes;
+    }
+
     public long getShapeChangesEventId() {
         return shapeChangesEventId;
     }
