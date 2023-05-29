@@ -6,12 +6,17 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="/database/create-shape-change-event.xml"/>
-    <include file="/database/create-shape-changes.xml"/>
-    <include file="/database/create-role-table.xml"/>
-    <include file="/database/create-user-table.xml"/>
-    <include file="/database/create-user-roles-table.xml"/>
-    <include file="/database/create-shape-table.xml"/>
-    <includeAll path="/database/shapes-table"/>
-    <include file="/database/create-shapes-obj.xml"/>
+    <changeSet id="20230509_009_mateusz" author="mateusz">
+        <createTable tableName="app_role">
+            <column autoIncrement="true" name="id_app_role" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="PK_APP_ROLE" unique="true"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+
+        </createTable>
+
+    </changeSet>
 </databaseChangeLog>
