@@ -70,9 +70,9 @@ public class ShapeController {
 
     @GetMapping("/{id}/changes")
     public ResponseEntity<List<ShapeChangesEventDto>> getShapeChangesEvent(@PathVariable (name = "id") long id){
-        List<ShapeChangesEvent> event = shapeChangesEventService.getEventByShapeId(id);
-        List<ShapeChangesEventDto> collect = event.stream()
-                .map(x -> modelMapper.map(x, ShapeChangesEventDto.class))
+        List<ShapeChangesEvent> eventList = shapeChangesEventService.getEventByShapeId(id);
+        List<ShapeChangesEventDto> collect = eventList.stream()
+                .map(x -> new ShapeChangesEventDto(x.getId(), x.getChangedDate(), x.getShapeId(), x.getChangesBy(), x.getChanges()))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(collect);
     }

@@ -35,7 +35,7 @@ public class ShapeChangesEventService {
         AppUser shapeAppUser = appUserService.getSingleAppUserById(shape.getAppUser().getId());
         String basicAuthUsername = ((UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
         AppUser basicAuthAppUser = appUserService.getAppUserByUsername(basicAuthUsername);
-        if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ADMIN"))) {
+        if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ROLE_ADMIN"))) {
             return shapeChangesEventRepository.findAllByShapeId(id).orElseThrow(() -> new IllegalArgumentException("There is no changes with id" + id));
         } else
             throw new IllegalArgumentException("You have no permission!");
