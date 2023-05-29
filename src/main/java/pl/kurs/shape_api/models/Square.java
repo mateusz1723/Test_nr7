@@ -59,13 +59,13 @@ public class Square extends Shape {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Square square = (Square) o;
-        return Double.compare(square.sideLength, sideLength) == 0;
+        return Double.compare(square.sideLength, sideLength) == 0 && Double.compare(square.perimeter, perimeter) == 0 && Double.compare(square.area, area) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sideLength);
+        return Objects.hash(super.hashCode(), sideLength, perimeter, area);
     }
-
 }

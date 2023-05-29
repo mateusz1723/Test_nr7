@@ -1,6 +1,7 @@
 package pl.kurs.shape_api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.JoinFormula;
 import org.springframework.data.annotation.CreatedBy;
@@ -8,16 +9,17 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import pl.kurs.shape_api.security.AppUser;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Shape implements Serializable {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +48,11 @@ public abstract class Shape implements Serializable {
     @LastModifiedBy
     private String lastModifiedBy;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_user_id")
+    private AppUser appUser;
+
+
     public Shape() {
     }
 
@@ -57,6 +64,7 @@ public abstract class Shape implements Serializable {
         this.lastModifiedAt = lastModifiedAt;
         this.lastModifiedBy = lastModifiedBy;
     }
+
 
     public abstract double getPerimeter();
     public abstract double getArea();
@@ -118,6 +126,13 @@ public abstract class Shape implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
+    }
 
     @Override
     public String toString() {
@@ -130,5 +145,18 @@ public abstract class Shape implements Serializable {
                 ", lastModifiedAt=" + lastModifiedAt +
                 ", lastModifiedBy='" + lastModifiedBy +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shape shape = (Shape) o;
+        return id == shape.id && version == shape.version && Objects.equals(type, shape.type) && Objects.equals(createdBy, shape.createdBy) && Objects.equals(createdAt, shape.createdAt) && Objects.equals(lastModifiedAt, shape.lastModifiedAt) && Objects.equals(lastModifiedBy, shape.lastModifiedBy) && Objects.equals(appUser, shape.appUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, version, type, createdBy, createdAt, lastModifiedAt, lastModifiedBy, appUser);
     }
 }
