@@ -10,7 +10,7 @@ public abstract class ShapeDto {
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
-    private LocalDate lastModifiedBy;
+    private String lastModifiedBy;
 
 
     public Long getId() {
@@ -61,11 +61,11 @@ public abstract class ShapeDto {
         this.lastModifiedAt = lastModifiedAt;
     }
 
-    public LocalDate getLastModifiedBy() {
+    public String getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(LocalDate lastModifiedBy) {
+    public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 }
