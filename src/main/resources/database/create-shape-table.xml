@@ -35,7 +35,13 @@
             <column name="last_modified_by" type="VARCHAR(255)">
             </column>
 
+            <column name="app_user_id" type="BIGINT">
+            </column>
+
         </createTable>
+
+        <addForeignKeyConstraint baseTableName="shape" baseColumnNames="app_user_id" constraintName="FK_APP_USER_ID" referencedTableName="app_user"
+                                 referencedColumnNames="id_app_user"/>
 
     </changeSet>
 </databaseChangeLog>
