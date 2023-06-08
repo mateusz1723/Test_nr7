@@ -12,7 +12,6 @@ import pl.kurs.shape_api.commands.CreateShapeCommand;
 import pl.kurs.shape_api.commands.UpdateShapeCommand;
 import pl.kurs.shape_api.dto.ShapeChangesEventDto;
 import pl.kurs.shape_api.dto.ShapeDto;
-import pl.kurs.shape_api.exceptionhandling.VersionNotEqualsException;
 import pl.kurs.shape_api.mapper.ShapeMapper;
 import pl.kurs.shape_api.models.*;
 import pl.kurs.shape_api.security.AppUser;
@@ -70,16 +69,14 @@ public class ShapeController {
 
     @GetMapping("/{id}/changes")
     public ResponseEntity<List<ShapeChangesEventDto>> getShapeChangesEvent(@PathVariable (name = "id") long id){
-        List<ShapeChangesEvent> eventList = shapeChangesEventService.getEventByShapeId(id);
-        List<ShapeChangesEventDto> collect = eventList.stream()
-                .map(x -> new ShapeChangesEventDto(x.getId(), x.getChangedDate(), x.getShapeId(), x.getChangesBy(), x.getChanges()))
+        List<ShapeChangesEventDto> shapeChangesList = shapeChangesEventService.getEventByShapeId(id).stream()
+                .map(x -> modelMapper.map(x, ShapeChangesEventDto.class))
                 .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(collect);
+        return ResponseEntity.status(HttpStatus.OK).body(shapeChangesList);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<ShapeDto> editShape(@PathVariable(name = "id") long id, @RequestBody UpdateShapeCommand updateShapeCommand) throws VersionNotEqualsException {
+    public ResponseEntity<ShapeDto> editShape(@PathVariable(name = "id") long id, @RequestBody UpdateShapeCommand updateShapeCommand) {
         Shape edit = shapeService.edit(id, updateShapeCommand);
         return ResponseEntity.status(HttpStatus.CREATED).body(shapeMapper.mapToDto(edit));
     }

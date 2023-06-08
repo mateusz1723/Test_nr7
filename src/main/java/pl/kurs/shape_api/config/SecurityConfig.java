@@ -40,8 +40,10 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .httpBasic()
+                .and().headers().frameOptions().disable()
                 .and()
                 .csrf().disable();
+
 
         return http.build();
     }
