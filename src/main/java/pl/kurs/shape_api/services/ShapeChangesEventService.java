@@ -34,7 +34,7 @@ public class ShapeChangesEventService {
         Shape shape = shapeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("There is no shape with id:" + id));
         AppUser shapeAppUser = appUserService.getSingleAppUserById(shape.getAppUser().getId());
         String basicAuthUsername = ((UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-        AppUser basicAuthAppUser = appUserService.getAppUserByUsername(basicAuthUsername);
+        AppUser basicAuthAppUser = appUserService.getAppUserByUsernameWithRoles(basicAuthUsername);
         if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ROLE_ADMIN"))) {
             return shapeChangesEventRepository.findAllByShapeId(id).orElseThrow(() -> new IllegalArgumentException("There is no changes with id" + id));
         } else

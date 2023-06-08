@@ -1,19 +1,19 @@
 package pl.kurs.shape_api.services;
 
-import org.hibernate.annotations.OptimisticLock;
+import liquibase.pro.packaged.S;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kurs.shape_api.commands.CreateShapeCommand;
 import pl.kurs.shape_api.commands.UpdateShapeCommand;
-import pl.kurs.shape_api.exceptionhandling.VersionNotEqualsException;
 import pl.kurs.shape_api.models.Shape;
 import pl.kurs.shape_api.repository.ShapeCriteriaRepository;
 import pl.kurs.shape_api.repository.ShapeRepository;
 import pl.kurs.shape_api.security.AppUser;
 import pl.kurs.shape_api.shapeFactory.ShapeFactory;
 
+import javax.persistence.LockModeType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,13 +50,12 @@ public class ShapeService {
         return shapeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("There is no entity with id: " + id));
     }
 
-    public Shape edit(Long id, UpdateShapeCommand updateShapeCommand) throws VersionNotEqualsException {
+
+    public Shape edit(Long id, UpdateShapeCommand updateShapeCommand){
         Shape shape = getById(id);
         AppUser shapeAppUser = appUserService.getSingleAppUserById(shape.getAppUser().getId());
         String basicAuthUsername = ((UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-        AppUser basicAuthAppUser = appUserService.getAppUserByUsername(basicAuthUsername);
-        if (shape.getVersion() != updateShapeCommand.getVersion())
-            throw new VersionNotEqualsException("Version while updating is not same!");
+        AppUser basicAuthAppUser = appUserService.getAppUserByUsernameWithRoles(basicAuthUsername);
         if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ROLE_ADMIN"))) {
             shape.setVersion(updateShapeCommand.getVersion());
             shape.setLastModifiedBy(basicAuthUsername);
