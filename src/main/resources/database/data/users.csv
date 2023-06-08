@@ -1,3 +1,3 @@
-id_app_user,name,password,surname,username
-1,'mateusz',$2y$10$AxcE.1QMirs/07TmWtu5nuGKiqcSmqSdVLL4TV/q3zRPtryhMD37a,'trochimowicz','mateusz'
-2,'waldek',$2y$10$AxcE.1QMirs/07TmWtu5nuGKiqcSmqSdVLL4TV/q3zRPtryhMD37a,'nowak','waldek'
+name,password,surname,username
+'mateusz','$2y$10$AxcE.1QMirs/07TmWtu5nuGKiqcSmqSdVLL4TV/q3zRPtryhMD37a','trochimowicz','mateusz'
+'waldek','$2y$10$AxcE.1QMirs/07TmWtu5nuGKiqcSmqSdVLL4TV/q3zRPtryhMD37a','nowak','waldek'

@@ -6,4 +6,5 @@ import pl.kurs.shape_api.models.Shape;
 
 public interface ShapeRepository extends JpaRepository<Shape, Long> {
 
+
 }

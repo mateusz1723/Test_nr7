@@ -1,8 +1,4 @@
 package pl.kurs.shape_api.dto;
-
-import pl.kurs.shape_api.models.Shape;
-import pl.kurs.shape_api.security.AppRole;
-
 import java.util.Set;
 
 public class AppUserDto {
@@ -11,8 +7,8 @@ public class AppUserDto {
     private String name;
     private String surname;
     private String username;
-    private Set<AppRole> roles;
-    private Set<Shape> shapes;
+    private Set<AppRoleDto> roles;
+    private Set<ShapeDto> shapes;
 
     public long getId() {
         return id;
@@ -46,19 +42,19 @@ public class AppUserDto {
         this.username = username;
     }
 
-    public Set<AppRole> getRoles() {
+    public Set<AppRoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<AppRole> roles) {
+    public void setRoles(Set<AppRoleDto> roles) {
         this.roles = roles;
     }
 
-    public Set<Shape> getShapes() {
+    public Set<ShapeDto> getShapes() {
         return shapes;
     }
 
-    public void setShapes(Set<Shape> shapes) {
+    public void setShapes(Set<ShapeDto> shapes) {
         this.shapes = shapes;
     }
 }
