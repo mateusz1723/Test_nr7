@@ -1,4 +1,5 @@
 package pl.kurs.shape_api.security;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.kurs.shape_api.models.Shape;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(name = "UC_APP_USER_USERNAME", columnNames={"username"})})
 public class AppUser implements UserDetails {
     private static final long serialVersionUID = 1l;
 
@@ -22,7 +24,7 @@ public class AppUser implements UserDetails {
     private String name;
     @Column(nullable = false)
     private String surname;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -128,5 +130,19 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppUser appUser = (AppUser) o;
+        return id == appUser.id && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && Objects.equals(name, appUser.name) && Objects.equals(surname, appUser.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, name, surname);
     }
 }
