@@ -1,32 +1,23 @@
 package pl.kurs.shape_api.dto;
 
-import pl.kurs.shape_api.models.ShapeChanges;
-
 import java.time.LocalDate;
 import java.util.Set;
 
 public class ShapeChangesEventDto {
 
-    private long shapeChangesEventId;
+    private long id;
     private LocalDate changedDate;
     private long shapeId;
     private String changesBy;
-    private Set<ShapeChanges> changes;
+    private Set<ShapeChangesDto> changes;
 
-    public ShapeChangesEventDto(long shapeChangesEventId, LocalDate changedDate, long shapeId, String changesBy, Set<ShapeChanges> changes) {
-        this.shapeChangesEventId = shapeChangesEventId;
-        this.changedDate = changedDate;
-        this.shapeId = shapeId;
-        this.changesBy = changesBy;
-        this.changes = changes;
+
+    public long getId() {
+        return id;
     }
 
-    public long getShapeChangesEventId() {
-        return shapeChangesEventId;
-    }
-
-    public void setShapeChangesEventId(long shapeChangesEventId) {
-        this.shapeChangesEventId = shapeChangesEventId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public LocalDate getChangedDate() {
@@ -45,11 +36,11 @@ public class ShapeChangesEventDto {
         this.shapeId = shapeId;
     }
 
-    public Set<ShapeChanges> getChanges() {
+    public Set<ShapeChangesDto> getChanges() {
         return changes;
     }
 
-    public void setChanges(Set<ShapeChanges> changes) {
+    public void setChanges(Set<ShapeChangesDto> changes) {
         this.changes = changes;
     }
 

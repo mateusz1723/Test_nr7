@@ -11,10 +11,11 @@ public class SimpleAppUserDto {
     private String surname;
     private String username;
     private String password;
-    private Set<AppRole> roles;
+    private Set<AppRoleDto> roles;
     private int numberOfShapes;
 
-    public SimpleAppUserDto(long id, String name, String surname, String username, String password, Set<AppRole> roles, int numberOfShapes) {
+
+    public SimpleAppUserDto(long id, String name, String surname, String username, String password, Set<AppRoleDto> roles, int numberOfShapes) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -24,11 +25,11 @@ public class SimpleAppUserDto {
         this.numberOfShapes = numberOfShapes;
     }
 
-    public Set<AppRole> getRoles() {
+    public Set<AppRoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<AppRole> roles) {
+    public void setRoles(Set<AppRoleDto> roles) {
         this.roles = roles;
     }
 
