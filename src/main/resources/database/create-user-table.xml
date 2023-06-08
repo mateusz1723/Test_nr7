@@ -8,7 +8,7 @@
 
     <changeSet id="20230509_010_mateusz" author="mateusz">
         <createTable tableName="app_user">
-            <column autoIncrement="true" name="id_app_user" type="BIGINT">
+            <column autoIncrement="true"  name="id_app_user" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="PK_APP_USER" unique="true"/>
             </column>
 
@@ -25,7 +25,7 @@
             </column>
 
             <column name="username" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" uniqueConstraintName="UC_APP_USER_USERNAME" unique="true"/>
             </column>
 
         </createTable>
