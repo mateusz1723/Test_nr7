@@ -31,20 +31,28 @@ public class SquareCreator implements ShapeCreator {
     }
 
     @Override
-    public void update(Map<String, Object> parameters, Shape shape) {
+    public Shape update(Map<String, Object> parameters, Shape shape) {
         if (!parameters.containsKey("sideLength"))
             throw new IllegalArgumentException("Figura square posiada tylko jeden parametr: sideLength");
         if (parameters.containsValue(0))
             throw new IllegalArgumentException("Parametry nie moga miec wartosci 0");
 
-        ShapeChangesEvent shapeChangesEvent = new ShapeChangesEvent(LocalDate.now(), shape.getId(), shape.getLastModifiedBy());
+        ShapeChangesEvent shapeChangesEvent = new ShapeChangesEvent(LocalDate.now(), shape, shape.getLastModifiedBy());
         ShapeChanges shapeChanges = new ShapeChanges("sideLength", String.valueOf(((Square) shape).getSideLength()), parameters.get("sideLength").toString());
 
-        ((Square) shape).setSideLength(getDoubleParameters("sideLength", parameters));
+        Square square = new Square();
+        square.setId(shape.getId());
+        square.setLastModifiedBy(shape.getLastModifiedBy());
+        square.setAppUser(shape.getAppUser());
+        square.setType(shape.getType());
+        square.setCreatedAt(shape.getCreatedAt());
+        square.setCreatedBy(shape.getCreatedBy());
+        square.setLastModifiedAt(shape.getLastModifiedAt());
+        square.setSideLength(getDoubleParameters("sideLength", parameters));
 
         shapeChangesEvent.addChanges(shapeChanges);
         shapeChangesEventService.saveEvent(shapeChangesEvent);
-
+        return square;
     }
 
 }

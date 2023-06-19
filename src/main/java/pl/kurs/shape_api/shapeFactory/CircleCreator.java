@@ -35,17 +35,28 @@ public class CircleCreator implements ShapeCreator {
     }
 
     @Override
-    public void update(Map<String, Object> parameters, Shape shape) {
+    public Shape update(Map<String, Object> parameters, Shape shape) {
         if (!parameters.containsKey("radius"))
             throw new IllegalArgumentException("Figura circle ma ma jeden parametr: radius");
         if (parameters.containsValue(0))
             throw new IllegalArgumentException("Parametry nie moga miec wartosci 0");
 
-        ShapeChangesEvent shapeChangesEvent = new ShapeChangesEvent(LocalDate.now(), shape.getId(), shape.getLastModifiedBy());
+        ShapeChangesEvent shapeChangesEvent = new ShapeChangesEvent(LocalDate.now(), shape, shape.getLastModifiedBy());
         ShapeChanges shapeChanges = new ShapeChanges("radius", String.valueOf(((Circle) shape).getRadius()), parameters.get("radius").toString());
-        ((Circle) shape).setRadius(getDoubleParameters("radius", parameters));
+
+        Circle circle = new Circle();
+        circle.setId(shape.getId());
+        circle.setLastModifiedBy(shape.getLastModifiedBy());
+        circle.setAppUser(shape.getAppUser());
+        circle.setType(shape.getType());
+        circle.setCreatedAt(shape.getCreatedAt());
+        circle.setCreatedBy(shape.getCreatedBy());
+        circle.setLastModifiedAt(shape.getLastModifiedAt());
+        circle.setRadius(getDoubleParameters("radius", parameters));
 
         shapeChangesEvent.addChanges(shapeChanges);
         shapeChangesEventService.saveEvent(shapeChangesEvent);
+
+        return circle;
     }
 }
