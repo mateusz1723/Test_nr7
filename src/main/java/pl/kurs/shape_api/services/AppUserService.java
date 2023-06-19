@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kurs.shape_api.repository.AppUserRepo;
 import pl.kurs.shape_api.repository.AppUserRepository;
 import pl.kurs.shape_api.security.AppUser;
 
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository repository;
+    private final AppUserRepo appUserRepo;
 
-    public AppUserService(AppUserRepository repository) {
+    public AppUserService(AppUserRepository repository, AppUserRepo appUserRepo) {
         this.repository = repository;
+        this.appUserRepo = appUserRepo;
     }
 
     @Override
@@ -51,9 +54,10 @@ public class AppUserService implements UserDetailsService {
     }
 
     @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
-    public Page<AppUser> getAll(Pageable pageable){
-        return repository.findAllByPageable(pageable);
+    public List<AppUser> getAll(Pageable pageable){
+        return appUserRepo.getAppUsersByPageableWithRolesAndShapes(pageable);
     }
+
 
     @Transactional(readOnly = true)
     public AppUser getAppUserByUsernameWithRoles(String username){

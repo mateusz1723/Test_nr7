@@ -69,7 +69,8 @@ public class ShapeController {
 
     @GetMapping("/{id}/changes")
     public ResponseEntity<List<ShapeChangesEventDto>> getShapeChangesEvent(@PathVariable (name = "id") long id){
-        List<ShapeChangesEventDto> shapeChangesList = shapeChangesEventService.getEventByShapeId(id).stream()
+        Shape shape = shapeService.getById(id);
+        List<ShapeChangesEventDto> shapeChangesList = shapeChangesEventService.getEventByShapeAndId(id, shape).stream()
                 .map(x -> modelMapper.map(x, ShapeChangesEventDto.class))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(shapeChangesList);
@@ -77,7 +78,8 @@ public class ShapeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ShapeDto> editShape(@PathVariable(name = "id") long id, @RequestBody UpdateShapeCommand updateShapeCommand) {
-        Shape edit = shapeService.edit(id, updateShapeCommand);
+        Shape shape = shapeService.getById(id);
+        Shape edit = shapeService.edit(shape, updateShapeCommand);
         return ResponseEntity.status(HttpStatus.CREATED).body(shapeMapper.mapToDto(edit));
     }
 }

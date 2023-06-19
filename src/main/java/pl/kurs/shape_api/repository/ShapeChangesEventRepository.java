@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ShapeChangesEventRepository extends JpaRepository<ShapeChangesEvent, Long> {
 
-    @Query(value = "SELECT distinct s FROM ShapeChangesEvent s LEFT JOIN FETCH s.changes WHERE s.shapeId = ?1",
+    @Query(value = "SELECT distinct s FROM ShapeChangesEvent s LEFT JOIN FETCH s.changes WHERE s.shape.id = ?1",
     countQuery = "select count (s) from ShapeChangesEvent s")
     Optional<List<ShapeChangesEvent>> findAllByShapeId(long id);
 
