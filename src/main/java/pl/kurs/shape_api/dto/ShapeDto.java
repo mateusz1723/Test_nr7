@@ -6,7 +6,7 @@ public abstract class ShapeDto {
 
     private Long id;
     private String type;
-    private String version;
+    private int version;
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
@@ -29,11 +29,11 @@ public abstract class ShapeDto {
         this.type = type;
     }
 
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 

@@ -6,13 +6,16 @@ public class SquareDto extends ShapeDto{
     private Long id;
     private String type;
     private double sideLength;
-    private String version;
+    private int version;
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
     private String lastModifiedBy;
     private double area;
     private double perimeter;
+
+    public SquareDto() {
+    }
 
     @Override
     public Long getId() {
@@ -43,12 +46,12 @@ public class SquareDto extends ShapeDto{
     }
 
     @Override
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
     @Override
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 

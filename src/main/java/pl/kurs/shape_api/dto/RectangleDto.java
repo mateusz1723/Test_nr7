@@ -7,13 +7,16 @@ public class RectangleDto extends ShapeDto{
     private String type;
     private double width;
     private double height;
-    private String version;
+    private int version;
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
     private String lastModifiedBy;
     private double area;
     private double perimeter;
+
+    public RectangleDto() {
+    }
 
     @Override
     public Long getId() {
@@ -52,12 +55,12 @@ public class RectangleDto extends ShapeDto{
     }
 
     @Override
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
     @Override
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 
