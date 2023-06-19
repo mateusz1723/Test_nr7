@@ -15,7 +15,9 @@ public class ShapeChangesEvent implements Serializable {
     @Column(name = "id_shape_changes_event")
     private long id;
     private LocalDate changedDate;
-    private long shapeId;
+    @OneToOne
+    @JoinColumn(name = "shape_id")
+    private Shape shape;
     private String changesBy;
     @OneToMany(mappedBy = "shapeChangesEvent", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<ShapeChanges> changes = new HashSet<>();
@@ -24,9 +26,9 @@ public class ShapeChangesEvent implements Serializable {
     }
 
 
-    public ShapeChangesEvent(LocalDate changedDate, long shapeId, String changesBy) {
+    public ShapeChangesEvent(LocalDate changedDate, Shape shape, String changesBy) {
         this.changedDate = changedDate;
-        this.shapeId = shapeId;
+        this.shape = shape;
         this.changesBy = changesBy;
     }
 
@@ -46,12 +48,12 @@ public class ShapeChangesEvent implements Serializable {
         this.changedDate = date;
     }
 
-    public long getShapeId() {
-        return shapeId;
+    public Shape getShape() {
+        return shape;
     }
 
-    public void setShapeId(long shapeId) {
-        this.shapeId = shapeId;
+    public void setShape(Shape shapeId) {
+        this.shape = shape;
     }
 
     public String getChangesBy() {

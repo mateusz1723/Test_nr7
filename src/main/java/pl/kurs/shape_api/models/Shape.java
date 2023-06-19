@@ -1,9 +1,6 @@
 package pl.kurs.shape_api.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.JoinFormula;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
