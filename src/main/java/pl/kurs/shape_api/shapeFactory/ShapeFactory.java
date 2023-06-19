@@ -26,8 +26,8 @@ public class ShapeFactory {
         return creators.get(createShapeCommand.getType().toUpperCase()).create(createShapeCommand.getParameters());
     }
 
-    public void updateShape(UpdateShapeCommand updateShapeCommand, Shape shape){
-         creators.get(shape.getType()).update(updateShapeCommand.getParameters(), shape);
+    public Shape updateShape(UpdateShapeCommand updateShapeCommand, Shape shape){
+         return creators.get(shape.getType()).update(updateShapeCommand.getParameters(), shape);
     }
 }
 

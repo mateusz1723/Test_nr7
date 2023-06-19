@@ -7,13 +7,16 @@ public class CircleDto extends ShapeDto{
     private Long id;
     private String type;
     private double radius;
-    private String version;
+    private int version;
     private String createdBy;
     private LocalDate createdAt;
     private LocalDate lastModifiedAt;
     private String lastModifiedBy;
     private double area;
     private double perimeter;
+
+    public CircleDto() {
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +42,11 @@ public class CircleDto extends ShapeDto{
         this.radius = radius;
     }
 
-    public String getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 

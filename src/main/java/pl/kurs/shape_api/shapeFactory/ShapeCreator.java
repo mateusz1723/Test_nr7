@@ -8,7 +8,7 @@ public interface ShapeCreator {
 
      String getType();
      Shape create(Map<String, Object> parameters);
-     void update(Map<String, Object> parameters, Shape shape);
+     Shape update(Map<String, Object> parameters, Shape shape);
 
 
      default Double getDoubleParameters(String name, Map<String, Object> parameters){

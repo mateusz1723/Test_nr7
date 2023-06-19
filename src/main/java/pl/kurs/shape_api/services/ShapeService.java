@@ -1,8 +1,6 @@
 package pl.kurs.shape_api.services;
 
-import liquibase.pro.packaged.S;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kurs.shape_api.commands.CreateShapeCommand;
@@ -10,10 +8,8 @@ import pl.kurs.shape_api.commands.UpdateShapeCommand;
 import pl.kurs.shape_api.models.Shape;
 import pl.kurs.shape_api.repository.ShapeCriteriaRepository;
 import pl.kurs.shape_api.repository.ShapeRepository;
-import pl.kurs.shape_api.security.AppUser;
 import pl.kurs.shape_api.shapeFactory.ShapeFactory;
 
-import javax.persistence.LockModeType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,13 +20,11 @@ public class ShapeService {
     private final ShapeRepository shapeRepository;
     private final ShapeFactory shapeFactory;
     private final ShapeCriteriaRepository shapeCriteriaRepository;
-    private final AppUserService appUserService;
 
-    public ShapeService(ShapeRepository shapeRepository, ShapeFactory shapeFactory, ShapeCriteriaRepository shapeCriteriaRepository, AppUserService appUserService) {
+    public ShapeService(ShapeRepository shapeRepository, ShapeFactory shapeFactory, ShapeCriteriaRepository shapeCriteriaRepository) {
         this.shapeRepository = shapeRepository;
         this.shapeFactory = shapeFactory;
         this.shapeCriteriaRepository = shapeCriteriaRepository;
-        this.appUserService = appUserService;
     }
 
     public Shape createShape(CreateShapeCommand createShapeCommand) {
@@ -50,21 +44,14 @@ public class ShapeService {
         return shapeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("There is no entity with id: " + id));
     }
 
-
-    public Shape edit(Long id, UpdateShapeCommand updateShapeCommand){
-        Shape shape = getById(id);
-        AppUser shapeAppUser = appUserService.getSingleAppUserById(shape.getAppUser().getId());
-        String basicAuthUsername = ((UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-        AppUser basicAuthAppUser = appUserService.getAppUserByUsernameWithRoles(basicAuthUsername);
-        if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ROLE_ADMIN"))) {
-            shape.setVersion(updateShapeCommand.getVersion());
-            shape.setLastModifiedBy(basicAuthUsername);
-            shapeFactory.updateShape(updateShapeCommand, shape);
-        } else
-            throw new IllegalArgumentException("You have no permission to update");
-
-        return add(shape);
+    @Transactional
+    @PreAuthorize("#shape.createdBy == principal.username or hasRole('ROLE_ADMIN')")
+    public Shape edit(Shape shape, UpdateShapeCommand updateShapeCommand) {
+        Shape newShape = shapeFactory.updateShape(updateShapeCommand, shape);
+        newShape.setVersion(updateShapeCommand.getVersion());
+        return add(newShape);
     }
+
 
     public List<Shape> getShapesBySpecificParameters(Map<String, String> param) {
         return shapeCriteriaRepository.getByFilters(param);
