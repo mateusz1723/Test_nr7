@@ -1,5 +1,6 @@
 package pl.kurs.shape_api.services;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,9 @@ import java.util.Optional;
 public class ShapeChangesEventService {
 
     private final ShapeChangesEventRepository shapeChangesEventRepository;
-    private final AppUserService appUserService;
-    private final ShapeRepository shapeRepository;
 
-    public ShapeChangesEventService(ShapeChangesEventRepository shapeChangesEventRepository, AppUserService appUserService, ShapeRepository shapeRepository) {
+    public ShapeChangesEventService(ShapeChangesEventRepository shapeChangesEventRepository) {
         this.shapeChangesEventRepository = shapeChangesEventRepository;
-        this.appUserService = appUserService;
-        this.shapeRepository = shapeRepository;
     }
 
     public ShapeChangesEvent saveEvent(ShapeChangesEvent shapeChanges){
@@ -30,14 +27,9 @@ public class ShapeChangesEventService {
                 .orElseThrow(() -> new RuntimeException("Bad entity!")));
     }
 
-    public List<ShapeChangesEvent> getEventByShapeId(long id){
-        Shape shape = shapeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("There is no shape with id:" + id));
-        AppUser shapeAppUser = appUserService.getSingleAppUserById(shape.getAppUser().getId());
-        String basicAuthUsername = ((UserDetails) (SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-        AppUser basicAuthAppUser = appUserService.getAppUserByUsernameWithRoles(basicAuthUsername);
-        if (shapeAppUser.getUsername().equals(basicAuthUsername) || basicAuthAppUser.getRoles().stream().anyMatch(x -> x.getName().equals("ROLE_ADMIN"))) {
-            return shapeChangesEventRepository.findAllByShapeId(id).orElseThrow(() -> new IllegalArgumentException("There is no changes with id" + id));
-        } else
-            throw new IllegalArgumentException("You have no permission!");
+    @PreAuthorize("#shape.createdBy == principal.username or hasRole('ROLE_ADMIN')")
+    public List<ShapeChangesEvent> getEventByShapeAndId(long id, Shape shape){
+            return shapeChangesEventRepository.findAllByShapeId(id)
+                    .orElseThrow(() -> new IllegalArgumentException("There is no changes with id" + id));
     }
 }
